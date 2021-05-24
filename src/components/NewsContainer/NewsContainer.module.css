@@ -1,0 +1,32 @@
+.container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: aquamarine;
+}
+
+.container > div{
+    height: 10%;
+    width: 70%;
+    margin: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    background-color: azure;
+}
+
+.container > div > img{
+    height: 100%;
+    width: 100%;
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.container > div > div{
+    grid-area: 1 / 2 / 2 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 1rem;
+}
