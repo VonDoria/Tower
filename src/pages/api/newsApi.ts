@@ -1,9 +1,11 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
+
 
 // npm install newsapi --save
 const NewsAPI = require('newsapi');
 const newsapi = new NewsAPI('e29c2871949345f3bfa6ea31f773d6cf');
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   if(req.method === 'GET')
   {
     try{

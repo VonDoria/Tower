@@ -1,7 +1,9 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
+
 
 const cheerio = require('cheerio');
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     const type = req.query.type
     try{
@@ -29,7 +31,7 @@ async function getStocks(){
   const htmlString = await response.text();
   const $ = cheerio.load(htmlString, null, false);
   const data = [];
-  $('.vd-table__body tr').each((index, element) => {
+  $('.vd-table__body tr').each((index: number, element: HTMLElement) => {
     let temp = {
       name: $(element).find('td:nth-child(1)').html(),
       code: $(element).find('td:nth-child(2)').html(),
