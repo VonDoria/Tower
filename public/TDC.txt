@@ -1,0 +1,14 @@
+Palestra 1 - Web Scrapping
+	- (Referências) https://gist.github.com/marcelgsantos/67499f047f68651f1fd5edaf954c3f3b
+	- Speacker usando o Chrome e o Puppetier
+
+Palestra 2 - Web Notifications
+	- (Divulgador de Angular) https://andrewrosario.medium.com/
+	- (Link do slide) https://docs.google.com/presentation/d/1T3DlFwlAk0nhazuKS-LRY8pyTR6GHs4aUKuokM5ewoM/edit#slide=id.gc9ff53b26a_2_58
+	- https://andrewrosario.medium.com/enviando-notifica%C3%A7%C3%B5es-personalizadas-na-sua-web-app-f2f4e56e6dce
+	  https://tests.peter.sh/notification-generator/
+  	  https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications
+	  https://github.com/andrewarosario/push-notifications-example
+	  https://web-push-book.gauntface.com/
+	- PWA pra fazer web apps
+

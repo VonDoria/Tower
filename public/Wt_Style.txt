@@ -1,0 +1,43 @@
+"defaults": {
+            "colorScheme" : "Dracula",
+            "cursorShape": "bar",
+            "cursorHeight": 95,
+            "cursorColor": "#e8ebff",
+            "tabColor": "#3523a9",
+            "background": "#3523a9",
+            "backgroundImage": "%LOCALAPPDATA%/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/RoamingState/star.png",
+            "backgroundImageStretchMode": "fill",
+            "backgroundImageOpacity": 0.8,
+            // "foreground": "#8effa7",
+            // "selectionBackground": "#465a45",
+            "useAcrylic": true,
+            "acrylicOpacity": 0.7,
+            //%LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\RoamingState
+            //"icon": "ms-appdata:///roaming/ubuntu.ico"
+        },
+
+
+
+{
+            "name": "Dracula",
+            "cursorColor": "#F8F8F2",
+            "selectionBackground": "#44475A",
+            "background": "#282A36",
+            "foreground": "#F8F8F2",
+            "black": "#21222C",
+            "blue": "#BD93F9",
+            "cyan": "#8BE9FD",
+            "green": "#50FA7B",
+            "purple": "#FF79C6",
+            "red": "#FF5555",
+            "white": "#F8F8F2",
+            "yellow": "#F1FA8C",
+            "brightBlack": "#6272A4",
+            "brightBlue": "#D6ACFF",
+            "brightCyan": "#A4FFFF",
+            "brightGreen": "#69FF94",
+            "brightPurple": "#FF92DF",
+            "brightRed": "#FF6E6E",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#FFFFA5"
+},

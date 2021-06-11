@@ -5,4 +5,47 @@
     justify-content: center;
     align-items: center;
     background-color: #cfcfcf;
+    font-size: 20px;
+}
+
+.container span{
+    min-width: 20rem;
+    margin: 5px;
+    background-color: #fbfbfb;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 1rem;
+}
+
+.container span p{
+    grid-row: 1 / 2;
+    margin: 0;
+}
+
+.container span h2{
+    grid-row: 2 / 3;
+    margin: 0;
+    max-width: 18rem;
+    word-wrap: none;
+}
+
+.container span div{
+    grid-row: 3 / 4;
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+}
+
+.container span div p{
+    font-weight: bold;
+    color: #919191ee;
+}
+
+.positive{
+    color: #28a745ee!important;
+}
+
+.negative{
+    color: #dc3545ee!important;
 }
