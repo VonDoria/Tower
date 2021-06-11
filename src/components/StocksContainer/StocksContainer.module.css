@@ -4,14 +4,15 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    background-color: #cfcfcf;
+    background-color: #ffffff;
     font-size: 20px;
 }
 
 .container span{
     min-width: 20rem;
     margin: 5px;
-    background-color: #fbfbfb;
+    background-color: #fafafa;
+    box-shadow: 2px 2px 3px 1px #ddd;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
     align-items: center;
@@ -21,6 +22,17 @@
 .container span p{
     grid-row: 1 / 2;
     margin: 0;
+}
+
+.container span p b{
+    float: right;
+    opacity: .4;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.container span p b:hover{
+    opacity: .8;
 }
 
 .container span h2{
@@ -46,6 +58,14 @@
     color: #28a745ee!important;
 }
 
+.positive::before{
+    content: '\21E7';
+}
+
 .negative{
     color: #dc3545ee!important;
+}
+
+.negative::before{
+    content: '\21E9';
 }

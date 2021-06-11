@@ -17,11 +17,11 @@ export default function Home() {
       {selectedStocks.map((element, index) => {
         return(   
             <span key={`${index}_card`}>
-              <p>{element.code}</p>
+              <p>{element.code}<b onClick={() => {}}>x</b></p>
               <h2>{element.name}</h2>
               <div>
                 <p>{element.price}</p>
-                <p className={element.variation.indexOf("-") == -1 ? styles.positive : styles.negative}>{element.variation.trim()}</p>
+                <p className={element.variation.indexOf("-") == -1 ? styles.positive : styles.negative}>&nbsp;{element.variation.trim()}</p>
               </div>
             </span>
         );
