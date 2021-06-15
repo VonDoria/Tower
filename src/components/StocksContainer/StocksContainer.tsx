@@ -1,23 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { StocksContext } from '../../contexts/StocksContext';
 import styles from './StocksContainer.module.css';
 
 
 export default function Home() {
 
-  const [selectedStocks, setSelectedStocks] = useState([]);
-
-  useEffect(() => {
-    fetch(window.location.origin + '/api/cotationsApi?type=stocks')
-    .then(res => res.json())
-    .then(res => setSelectedStocks(res.data));
-  }, []);
+  const { stocks } = useContext(StocksContext);
 
   return (
     <div className={styles.container}>
-      {selectedStocks.map((element, index) => {
+      {stocks.map((element, index) => {
         return(   
             <span key={`${index}_card`}>
-              <p>{element.code}<b onClick={() => {}}>x</b></p>
+              <p>{element.code}</p>
               <h2>{element.name}</h2>
               <div>
                 <p>{element.price}</p>

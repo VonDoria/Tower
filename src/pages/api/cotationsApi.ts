@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import coinsList from '../../../public/coinsList.json'
 
 
 const cheerio = require('cheerio');
@@ -9,11 +10,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try{
       let result = [];
       if(type === 'coin'){
-        result = await getMoeda();
+        result = await getCoin();
       }else if(type === 'stocks'){
         result = await getStocks();
+      }else if(type === 'list'){
+        var stocks = await getStocks();
+        var coin = await getCoin();
+        result = [...stocks, ...coin];
       }
       res.statusCode = 200
+      console.log(result);
       return res.json({
         data: result
       })
@@ -21,6 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       res.statusCode = 404
       return res.json({
         error: 'not found.',
+        message: e
       })
     }
   }
@@ -43,8 +50,16 @@ async function getStocks(){
   return data;
 }
 
-async function getMoeda(){
-  const response = await fetch(`https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL,ETH-BRL,XRP-BRL`);
+async function getCoin(){
+  const response = await fetch(`https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL`);
   const data = await response.json();
-  return data;
+  var result = data.map(c => {
+    return {
+      name: c.name,
+      code: c.code + " - " + c.codein,
+      price: `${(parseFloat(c.high) + parseFloat(c.low)) / 2}`,
+      variation: c.varBid,
+    };
+  });
+  return result;
 }

@@ -1,11 +1,59 @@
-import { createContext } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { OptionType } from "../components/StocksHeader/StocksHeader";
 
-const StocksContext = createContext({});
+interface StocksProviderProps{
+    children: ReactNode;
+}
 
-export function StocksProvider({ children }){
+interface StocksContextData{
+    stocks: CardDate[];
+    setSelectedStocks: (selectedStocks: OptionType[]) => void;
+    selectedStocks: OptionType[];
+}
+
+interface CardDate{
+    code: string;
+    name: string;
+    price: string;
+    variation: string;
+}
+
+export const StocksContext = createContext({} as StocksContextData);
+
+export function StocksProvider({ children }: StocksProviderProps){
+
+    const [stocks, setStocks] = useState([]);
+    const [selectedStocks, setSelectedStocks] = useState([]);
+
+    useEffect(() => {
+        loadListFromLS();
+    }, []);
+
+    useEffect(() => {
+        var strList = JSON.stringify(selectedStocks);
+        localStorage.setItem("selectedStocks", strList);
+        
+        fetch(window.location.origin + '/api/cotationsApi?type=list')
+        .then(res => res.json())
+        .then(res => setStocks(res.data));
+    }, [selectedStocks]);
+
+    function loadListFromLS(){
+        if(!!localStorage.getItem("selectedStocks")){
+            var strList = localStorage.getItem("selectedStocks");
+        }else{
+            var strList = "[]"
+        }
+        setSelectedStocks(JSON.parse(strList));
+    }
+
     return(
-        <StocksProvider.Povider value={{}}>
+        <StocksContext.Provider value={{
+            stocks,
+            setSelectedStocks,
+            selectedStocks
+        }}>
             { children }
-        </StocksProvider.Povider>
+        </StocksContext.Provider>
     );    
 }
