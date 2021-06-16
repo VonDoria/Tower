@@ -13,13 +13,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         result = await getCoin();
       }else if(type === 'stocks'){
         result = await getStocks();
-      }else if(type === 'list'){
-        var stocks = await getStocks();
-        var coin = await getCoin();
-        result = [...stocks, ...coin];
+      }else if(type === 'all'){
+        const stocks = await getStocks();
+        let stockNames = {};
+        stocks.map(card => stockNames[`${card.code}`] = card.name);
+        result = [{...coinsList, ...stockNames}];
       }
       res.statusCode = 200
-      console.log(result);
       return res.json({
         data: result
       })
@@ -40,25 +40,25 @@ async function getStocks(){
   const data = [];
   $('.vd-table__body tr').each((index: number, element: HTMLElement) => {
     let temp = {
-      name: $(element).find('td:nth-child(1)').html(),
-      code: $(element).find('td:nth-child(2)').html(),
-      price: $(element).find('td:nth-child(3)').html(),
-      variation: $(element).find('td:nth-child(4)').html(),
+      name: $(element).find('td:nth-child(1)').html().trim(),
+      code: $(element).find('td:nth-child(2)').html().trim(),
+      price: $(element).find('td:nth-child(3)').html().trim(),
+      variation: $(element).find('td:nth-child(4)').html().trim(),
     };
     data.push(temp);
   });
   return data;
 }
 
-async function getCoin(){
-  const response = await fetch(`https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL`);
+async function getCoin(params: string = "USD-BRL"){
+  const response = await fetch(`https://economia.awesomeapi.com.br/last/${params}`);
   const data = await response.json();
-  var result = data.map(c => {
+  var result = [...Object.keys(data)].map((n)=> {
     return {
-      name: c.name,
-      code: c.code + " - " + c.codein,
-      price: `${(parseFloat(c.high) + parseFloat(c.low)) / 2}`,
-      variation: c.varBid,
+      name: data[n].name,
+      code: data[n].code + " - " + data[n].codein,
+      price: `${(parseFloat(data[n].high) + parseFloat(data[n].low)) / 2}`,
+      variation: data[n].varBid,
     };
   });
   return result;

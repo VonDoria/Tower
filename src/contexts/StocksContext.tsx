@@ -7,8 +7,12 @@ interface StocksProviderProps{
 
 interface StocksContextData{
     stocks: CardDate[];
-    setSelectedStocks: (selectedStocks: OptionType[]) => void;
+    coin: CardDate[];
     selectedStocks: OptionType[];
+    selectedCoin: OptionType[];
+    setSelectedStocks: (selectedStocks: OptionType[]) => void;
+    setSelectedCoin: (selectedCoin: OptionType[]) => void;
+    fullList: any;
 }
 
 interface CardDate{
@@ -23,35 +27,60 @@ export const StocksContext = createContext({} as StocksContextData);
 export function StocksProvider({ children }: StocksProviderProps){
 
     const [stocks, setStocks] = useState([]);
+    const [coin, setCoin] = useState([]);
+    const [fullList, setFullList] = useState([]);
     const [selectedStocks, setSelectedStocks] = useState([]);
+    const [selectedCoin, setSelectedCoin] = useState([]);
+
 
     useEffect(() => {
         loadListFromLS();
+
+        fetch(window.location.origin + '/api/cotationsApi?type=all')
+        .then(res => res.json())
+        .then(res => setFullList(res.data));
+
+        // fetch(window.location.origin + '/api/cotationsApi?type=stocks')
+        // .then(res => res.json())
+        // .then(res => setStocks(res.data));
+
+        // fetch(window.location.origin + '/api/cotationsApi?type=coin&filter=')
+        // .then(res => res.json())
+        // .then(res => setCoin(res.data));
     }, []);
 
     useEffect(() => {
-        var strList = JSON.stringify(selectedStocks);
-        localStorage.setItem("selectedStocks", strList);
-        
-        fetch(window.location.origin + '/api/cotationsApi?type=list')
-        .then(res => res.json())
-        .then(res => setStocks(res.data));
+        localStorage.setItem("selectedStocks", JSON.stringify(selectedStocks));
     }, [selectedStocks]);
+
+    useEffect(() => {
+        localStorage.setItem("selectedCoin", JSON.stringify(selectedCoin));
+    }, [selectedCoin]);
 
     function loadListFromLS(){
         if(!!localStorage.getItem("selectedStocks")){
-            var strList = localStorage.getItem("selectedStocks");
+            var strStocksList = localStorage.getItem("selectedStocks");
         }else{
-            var strList = "[]"
+            var strStocksList = "[]"
         }
-        setSelectedStocks(JSON.parse(strList));
+        setSelectedStocks(JSON.parse(strStocksList));
+        if(!!localStorage.getItem("selectedCoin")){
+            var strCoinList = localStorage.getItem("selectedCoin");
+        }else{
+            var strCoinList = "[]"
+        }
+        setSelectedCoin(JSON.parse(strCoinList));
     }
 
     return(
         <StocksContext.Provider value={{
             stocks,
+            coin,
+            selectedStocks,
+            selectedCoin,
             setSelectedStocks,
-            selectedStocks
+            setSelectedCoin,
+            fullList
         }}>
             { children }
         </StocksContext.Provider>
