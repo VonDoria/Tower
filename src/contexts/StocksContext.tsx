@@ -34,14 +34,6 @@ export function StocksProvider({ children }: StocksProviderProps){
         fetch(window.location.origin + '/api/cotationsApi?type=all')
         .then(res => res.json())
         .then(res => setFullList(res.data));
-
-        // fetch(window.location.origin + '/api/cotationsApi?type=stocks')
-        // .then(res => res.json())
-        // .then(res => setStocks(res.data));
-
-        // fetch(window.location.origin + '/api/cotationsApi?type=coin&filter=')
-        // .then(res => res.json())
-        // .then(res => setCoin(res.data));
     }, []);
 
     useEffect(() => {
@@ -58,21 +50,36 @@ export function StocksProvider({ children }: StocksProviderProps){
         setSelectedStocks(JSON.parse(strStocksList));
     }
 
-    function requestCards(){
+    async function requestCards(){
         if(selectedStocks != []){
+            
+            let coinsList = [];
+            let stocksList = [];
+            selectedStocks.map(code => code.value.includes("-") ? coinsList.push(code.value) : stocksList.push(code.value));
+                        
+            const resSData = await fetch(window.location.origin + '/api/cotationsApi?type=stocks&filter=' + JSON.stringify(stocksList));
+            const resSJson = await resSData.json();
+            const stocksCards = resSJson.data;
+            
+            const resCData = await fetch(window.location.origin + '/api/cotationsApi?type=coin&filter=' + JSON.stringify(coinsList));
+            const resCJson = await resCData.json();
+            const coinCards = resCJson.data;
 
-            const coinsList = selectedStocks.filter(code => code.value.indexOf("-") != -1).map(c => c.value);
-            const stocksList = selectedStocks.filter(code => code.value.indexOf("-") == -1).map(c => c.value);
-            
-            setStocks([])
-            
-            fetch(window.location.origin + '/api/cotationsApi?type=stocks&filter=' + JSON.stringify(stocksList))
-            .then(res => res.json())
-            .then(res => setStocks([...stocks, ...res.data]));
-            
-            fetch(window.location.origin + '/api/cotationsApi?type=coin&filter=' + JSON.stringify(coinsList))
-            .then(res => res.json())
-            .then(res => setStocks([...stocks, ...res.data]));
+            const valid = validateResult([...stocksCards, ...coinCards]);
+            if(valid){
+                setStocks([...stocksCards, ...coinCards]);
+            }else{
+                // console.error("")
+            }
+        }
+    }
+
+    function validateResult(list: CardDate[]){
+        const error = list.filter(card => card.price == "NaN");
+        if(error.length == 0){
+            return true;
+        }else{
+            return false;
         }
     }
 
