@@ -21,7 +21,7 @@ export default function Home() {
                         <h2>{element.name}</h2>
                         <div>
                           <p>{element.price}</p>
-                          <p className={element.variation.includes("-") ? styles.positive : styles.negative}>&nbsp;{element.variation.trim()}</p>
+                          <p className={element.variation.includes("-") ? styles.negative : styles.positive}>&nbsp;{element.variation.trim()}</p>
                         </div>
                       </span>
                     );

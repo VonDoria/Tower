@@ -67,7 +67,7 @@ async function getCoin(params: string[] = ["USD-BRL"]){
       name: data[n].name,
       code: data[n].code + " - " + data[n].codein,
       price: `${(parseFloat(data[n].high) + parseFloat(data[n].low)) / 2}`,
-      variation: data[n].varBid,
+      variation: data[n].varBid + " %",
     };
   });
   return result;
