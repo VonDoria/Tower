@@ -6,14 +6,23 @@ const cheerio = require('cheerio');
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
-    const type = req.query.type
+
+    const type = req.query.type;
+    const list = <string[]>req.query.filter;
+    
     try{
+
       let result = [];
-      if(type === 'coin'){
-        result = await getCoin();
-      }else if(type === 'stocks'){
-        result = await getStocks();
-      }else if(type === 'all'){
+
+      if(type === 'coin')
+      {
+        result = await getCoin(JSON.parse(list.toString()));
+      }else if(type === 'stocks')
+      {
+        const data = await getStocks();
+        result = data.filter(s => list.indexOf(s.code) != -1)
+      }else if(type === 'all')
+      {
         const stocks = await getStocks();
         let stockNames = {};
         stocks.map(card => stockNames[`${card.code}`] = card.name);
@@ -50,10 +59,10 @@ async function getStocks(){
   return data;
 }
 
-async function getCoin(params: string = "USD-BRL"){
+async function getCoin(params: string[] = ["USD-BRL"]){
   const response = await fetch(`https://economia.awesomeapi.com.br/last/${params}`);
   const data = await response.json();
-  var result = [...Object.keys(data)].map((n)=> {
+  var result = Object.keys(data).map((n)=> {
     return {
       name: data[n].name,
       code: data[n].code + " - " + data[n].codein,

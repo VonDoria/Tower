@@ -14,6 +14,13 @@
     background-color: #28a745;
     color: white;
     border-radius: 5px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.container > span:hover{
+    background-color: #29ce50;
+    width: 5rem;
 }
 
 .container > div{

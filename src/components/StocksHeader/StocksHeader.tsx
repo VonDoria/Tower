@@ -15,12 +15,12 @@ const animatedComponents = makeAnimated();
 
 export default function StocksHeader(){
     
-    const { stocks, coin, selectedStocks, selectedCoin, setSelectedStocks, setSelectedCoin, fullList } = useContext(StocksContext);
+    const { selectedStocks, setSelectedStocks, fullList } = useContext(StocksContext);
 
     const [isOpened, setIsOpened] = useState(false);
     
-    const options: OptionType[] = [...Object.keys(fullList)].map(opt => {
-        return { value: fullList[opt].code, label: fullList[opt].code }
+    const options: OptionType[] = Object.keys({...fullList[0]}).map(opt => {
+        return { value: opt, label: fullList[0][`${opt}`] }
     });
 
     return(
@@ -28,7 +28,7 @@ export default function StocksHeader(){
             {isOpened ? 
                 (<Select
                     components={animatedComponents}
-                    defaultValue={[...selectedStocks, ...selectedCoin]}
+                    defaultValue={[...selectedStocks]}
                     closeMenuOnSelect={false}
                     isMulti
                     options={options}

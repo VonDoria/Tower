@@ -7,11 +7,8 @@ interface StocksProviderProps{
 
 interface StocksContextData{
     stocks: CardDate[];
-    coin: CardDate[];
     selectedStocks: OptionType[];
-    selectedCoin: OptionType[];
     setSelectedStocks: (selectedStocks: OptionType[]) => void;
-    setSelectedCoin: (selectedCoin: OptionType[]) => void;
     fullList: any;
 }
 
@@ -27,10 +24,8 @@ export const StocksContext = createContext({} as StocksContextData);
 export function StocksProvider({ children }: StocksProviderProps){
 
     const [stocks, setStocks] = useState([]);
-    const [coin, setCoin] = useState([]);
     const [fullList, setFullList] = useState([]);
     const [selectedStocks, setSelectedStocks] = useState([]);
-    const [selectedCoin, setSelectedCoin] = useState([]);
 
 
     useEffect(() => {
@@ -51,11 +46,8 @@ export function StocksProvider({ children }: StocksProviderProps){
 
     useEffect(() => {
         localStorage.setItem("selectedStocks", JSON.stringify(selectedStocks));
+        requestCards();
     }, [selectedStocks]);
-
-    useEffect(() => {
-        localStorage.setItem("selectedCoin", JSON.stringify(selectedCoin));
-    }, [selectedCoin]);
 
     function loadListFromLS(){
         if(!!localStorage.getItem("selectedStocks")){
@@ -64,22 +56,31 @@ export function StocksProvider({ children }: StocksProviderProps){
             var strStocksList = "[]"
         }
         setSelectedStocks(JSON.parse(strStocksList));
-        if(!!localStorage.getItem("selectedCoin")){
-            var strCoinList = localStorage.getItem("selectedCoin");
-        }else{
-            var strCoinList = "[]"
+    }
+
+    function requestCards(){
+        if(selectedStocks != []){
+
+            const coinsList = selectedStocks.filter(code => code.value.indexOf("-") != -1).map(c => c.value);
+            const stocksList = selectedStocks.filter(code => code.value.indexOf("-") == -1).map(c => c.value);
+            
+            setStocks([])
+            
+            fetch(window.location.origin + '/api/cotationsApi?type=stocks&filter=' + JSON.stringify(stocksList))
+            .then(res => res.json())
+            .then(res => setStocks([...stocks, ...res.data]));
+            
+            fetch(window.location.origin + '/api/cotationsApi?type=coin&filter=' + JSON.stringify(coinsList))
+            .then(res => res.json())
+            .then(res => setStocks([...stocks, ...res.data]));
         }
-        setSelectedCoin(JSON.parse(strCoinList));
     }
 
     return(
         <StocksContext.Provider value={{
             stocks,
-            coin,
             selectedStocks,
-            selectedCoin,
             setSelectedStocks,
-            setSelectedCoin,
             fullList
         }}>
             { children }
