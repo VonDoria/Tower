@@ -12,6 +12,7 @@
     "@types/cheerio": "^0.22.29",
     "@types/puppeteer": "^5.4.3",
     "cheerio": "^1.0.0-rc.6",
+    "dotenv": "^10.0.0",
     "newsapi": "^2.4.1",
     "next": "10.2.0",
     "puppeteer": "^9.1.1",

@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import coinsList from '../../../public/coinsList.json'
 
 
+require('dotenv/config');
 const cheerio = require('cheerio');
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -43,7 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 async function getStocks(){
-  const response = await fetch(`https://valorinveste.globo.com/cotacoes/`);
+  const response = await fetch(process.env.STOCKS_SOURCE);
   const htmlString = await response.text();
   const $ = cheerio.load(htmlString, null, false);
   const data = [];
@@ -60,7 +61,7 @@ async function getStocks(){
 }
 
 async function getCoin(params: string[] = ["USD-BRL"]){
-  const response = await fetch(`https://economia.awesomeapi.com.br/last/${params}`);
+  const response = await fetch(process.env.COINS_SOURCE + params);
   const data = await response.json();
   var result = Object.keys(data).map((n)=> {
     return {
@@ -72,3 +73,4 @@ async function getCoin(params: string[] = ["USD-BRL"]){
   });
   return result;
 }
+

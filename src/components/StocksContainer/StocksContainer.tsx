@@ -12,29 +12,29 @@ export default function Home() {
 
   useEffect(() => {
     setHTML(
-              <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 750: 2, 1000: 3, 1200: 4}}>
-                <Masonry>
+              // <ResponsiveMasonry columnsCountBreakPoints={{270: 1, 550: 2, 830: 3, 1050: 4}}>
+              //   <Masonry>
+              <div className={styles.container}>
                   {stocks.map((element, index) => {
                     return(   
                       <span className={styles.card} key={`${index}_card`}>
                         <p>{element.code}</p>
                         <h2>{element.name}</h2>
                         <div>
-                          <p>{element.price}</p>
-                          <p className={element.variation.includes("-") ? styles.negative : styles.positive}>&nbsp;{element.variation.trim()}</p>
+                          <p>{parseFloat(element.price).toFixed(3)}</p>
+                          <p className={element.variation.includes("-") ? styles.negative : styles.positive}>&nbsp;{parseFloat(element.variation.trim()).toFixed(3)} %</p>
                         </div>
                       </span>
                     );
                   })}
-                </Masonry>
-              </ResponsiveMasonry>
+              </div>
+              //   </Masonry>
+              // </ResponsiveMasonry>
             );
   }, [stocks]);
 
   return (
-    <div className={styles.container}>
-      {HTML}
-    </div>
+      HTML
   )
 }
 

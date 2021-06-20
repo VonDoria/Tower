@@ -1,16 +1,49 @@
 
 .container{
     background-color: #ffffff;
-    font-size: 20px;
+    font-size: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    max-height: 90vh;
+    overflow: auto;
+    transition: .5s;
+}
+
+@media only screen and (max-height: 300px){
+    .container{
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+    }
+}
+
+.container::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.container::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: #8a8a8a4d; 
+    border-radius: 5px;
+}
+  
+.container::-webkit-scrollbar-thumb:hover {
+    background: #7c7c7cb0; 
 }
 
 .card{
-    min-width: 20rem;
+    min-width: 15rem;
+    width: 15rem;
     margin: 5px;
     background-color: #fafafa;
-    box-shadow: 2px 2px 3px 1px #ddd;
+    box-shadow: 2px 2px 3px 1px #cacaca;
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 2fr 1fr;
     align-items: center;
     padding: 1rem;
 }

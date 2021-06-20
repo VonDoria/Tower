@@ -3,6 +3,7 @@ import { OptionType } from "../components/StocksHeader/StocksHeader";
 
 interface StocksProviderProps{
     children: ReactNode;
+    ssg: any;
 }
 
 interface StocksContextData{
@@ -21,7 +22,7 @@ interface CardDate{
 
 export const StocksContext = createContext({} as StocksContextData);
 
-export function StocksProvider({ children }: StocksProviderProps){
+export function StocksProvider({ children, ssg }: StocksProviderProps){
 
     const [stocks, setStocks] = useState([]);
     const [fullList, setFullList] = useState([]);
@@ -31,9 +32,13 @@ export function StocksProvider({ children }: StocksProviderProps){
     useEffect(() => {
         loadListFromLS();
 
-        fetch(window.location.origin + '/api/cotationsApi?type=all')
-        .then(res => res.json())
-        .then(res => setFullList(res.data));
+        setInterval(() => loadListFromLS(), 1000 * 60 * 30)
+
+        setFullList(ssg.data);
+
+        // fetch(window.location.origin + '/api/cotationsApi?type=all')
+        // .then(res => res.json())
+        // .then(res => setFullList(res.data));
     }, []);
 
     useEffect(() => {
@@ -51,8 +56,7 @@ export function StocksProvider({ children }: StocksProviderProps){
     }
 
     async function requestCards(){
-        if(selectedStocks != []){
-            
+        if(selectedStocks != []){            
             let coinsList = [];
             let stocksList = [];
             selectedStocks.map(code => code.value.includes("-") ? coinsList.push(code.value) : stocksList.push(code.value));
@@ -69,7 +73,7 @@ export function StocksProvider({ children }: StocksProviderProps){
             if(valid){
                 setStocks([...stocksCards, ...coinCards]);
             }else{
-                // console.error("")
+                // console.error("Error")
             }
         }
     }
