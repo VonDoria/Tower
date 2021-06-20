@@ -20,7 +20,7 @@ export default function Home({ globalNames }) {
 
 
 export async function getStaticProps() {
-  const response = await fetch((process.env.VERCEL_URL || "http://localhost:3000") + '/api/cotationsApi?type=all');
+  const response = await fetch((process.env.BASE_PATH) + '/api/cotationsApi?type=all');
   const data = await response.json();
 
   return {
