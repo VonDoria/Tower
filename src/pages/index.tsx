@@ -7,8 +7,8 @@ export default function Quotes({ globalNames }) {
   return (
     <div>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Tower</title>
+        <link rel="icon" href="/tower.png" />
       </Head>
       <StocksProvider ssg={globalNames}>
         <StocksHeader />
