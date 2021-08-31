@@ -1,16 +1,31 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import StocksContainer from '../components/StocksContainer/StocksContainer'
+import StocksHeader from '../components/StocksHeader/StocksHeader'
+import { StocksProvider } from '../contexts/StocksContext';
 
-export default function Home() {
+export default function Quotes({ globalNames }) {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <Link to={"/stocks"} >stocks</Link> */}
-      <a href="/stocks">Stocks</a>
-      <a href="/news">News</a>
+      <StocksProvider ssg={globalNames}>
+        <StocksHeader />
+        <StocksContainer />
+      </StocksProvider>
     </div>
   )
+}
+
+export async function getStaticProps() {
+  const response = await fetch((process.env.BASE_PATH) + '/api/cotationsApi?type=all');
+  const data = await response.json();
+
+  return {
+    props:{
+      globalNames: data
+    },
+    revalidate: 60 * 60 * 24 * 10,
+  }
 }
